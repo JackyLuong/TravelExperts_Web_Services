@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="TravelExperts_Web_Services:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>TravelExperts_Web_Services</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="TravelExperts_Web_Services-1.0-SNAPSHOT.war">
+      <element id="artifact" artifact-name="TravelExperts_Web_Services:war exploded" />
+    </root>
+  </artifact>
+</component>
