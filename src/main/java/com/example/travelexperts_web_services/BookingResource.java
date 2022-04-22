@@ -1,7 +1,6 @@
 package com.example.travelexperts_web_services;
 
 import com.google.gson.*;
-import com.google.gson.internal.bind.DateTypeAdapter;
 import com.google.gson.reflect.TypeToken;
 import model.Booking;
 
@@ -12,10 +11,6 @@ import javax.persistence.Query;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.lang.reflect.Type;
-import java.sql.Date;
-import java.sql.Time;
-import java.time.Instant;
-import java.time.ZoneId;
 import java.util.List;
 
 @Path("/bookings")
@@ -104,13 +99,13 @@ public class BookingResource
         {
             em.getTransaction().commit(); //commit update
             em.close();//close connection
-            response = "{'message', 'Booking was updated successfully'}";
+            response = "{'message': 'Booking was updated successfully'}";
         }
         else//update fails
         {
             em.getTransaction().rollback();//undo changes
             em.close();//close connection
-            response = "{'message', 'Failed to update booking'}";
+            response = "{'message': 'Failed to update booking'}";
         }
         return response;
     }
@@ -140,13 +135,13 @@ public class BookingResource
         {
             em.getTransaction().commit();//commit changes
             em.close();//close connection
-            response = "{'message', 'Booking was inserted successfully'}";
+            response = "{'message': 'Booking was inserted successfully'}";
         }
         else
         {
             em.getTransaction().rollback(); //undo changes
             em.close();//close connection
-            response = "{'message', 'Failed to insert Booking'}";
+            response = "{'message': 'Failed to insert Booking'}";
         }
         return response;
     }
@@ -176,18 +171,18 @@ public class BookingResource
             {
                 em.getTransaction().commit();//commit changes
                 em.close();//close connection
-                response = "{'message', 'Booking was deleted successfully'}";
+                response = "{'message': 'Booking was deleted successfully'}";
             }
             else
             {
                 em.getTransaction().rollback();//undo changes
                 em.close();//close connection
-                response = "{'message', 'Failed to delete booking'}";
+                response = "{'message': 'Failed to delete booking'}";
             }
         }
         else //Booking doesn't exist
         {
-            response = "{'message', 'Booking doesn't exist.'}";
+            response = "{'message': 'Booking doesn't exist.'}";
         }
         return response;
     }

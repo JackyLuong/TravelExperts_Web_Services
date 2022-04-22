@@ -6,7 +6,7 @@
     <persistence-unit name="default">
         <class>model.Booking</class>
         <class>model.Customer</class>
-        <class>model.Package</class>
+        <class>model.TravelPackage</class>
         <properties>
             <property name="javax.persistence.jdbc.url" value="jdbc:mariadb://localhost:3306/travelexpertsworkshop6"/>
             <property name="javax.persistence.jdbc.user" value="jacky"/>

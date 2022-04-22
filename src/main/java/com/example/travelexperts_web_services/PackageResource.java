@@ -2,6 +2,7 @@ package com.example.travelexperts_web_services;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import model.TravelPackage;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -38,10 +39,10 @@ public class PackageResource {
         String response = ""; //returns JSON string
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("default");
         EntityManager em = emf.createEntityManager();
-        Query query = em.createQuery("SELECT a FROM Package a"); //select all Packages
-        List<Package> packageList = query.getResultList(); //all packages
+        Query query = em.createQuery("SELECT a FROM TravelPackage a"); //select all Packages
+        List<TravelPackage> packageList = query.getResultList(); //all packages
 
-        Type type = new TypeToken<List<Package>>(){}.getType();
+        Type type = new TypeToken<List<TravelPackage>>(){}.getType();
         Gson gson = new Gson();
 
         //convert packages to JSON String
@@ -64,7 +65,7 @@ public class PackageResource {
         String response = ""; //return JSON string
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("default");
         EntityManager em = emf.createEntityManager();
-        Package selectedPackage = em.find(Package.class, packageId); //get package based on given package ID.
+        TravelPackage selectedPackage = em.find(TravelPackage.class, packageId); //get package based on given package ID.
 
         Gson gson = new Gson();
         response = gson.toJson(selectedPackage); //convert package to JSON String
@@ -89,22 +90,22 @@ public class PackageResource {
 
         Gson gson = new Gson();
         //Create new package with information from JSONString
-        Package newPackages = gson.fromJson(JSONString, Package.class);
+        TravelPackage newPackages = gson.fromJson(JSONString, TravelPackage.class);
 
         em.getTransaction().begin();
         //Update package
-        Package mergedPackage = em.merge(newPackages);
+        TravelPackage mergedPackage = em.merge(newPackages);
         if(mergedPackage != null) //update succeeds
         {
             em.getTransaction().commit(); //commit update
             em.close();//close connection
-            response = "{'message', 'Package was updated successfully'}";
+            response = "{'message': 'Package was updated successfully'}";
         }
         else//update fails
         {
             em.getTransaction().rollback();//undo changes
             em.close();//close connection
-            response = "{'message', 'Failed to update package'}";
+            response = "{'message': 'Failed to update package'}";
         }
         return response;
     }
@@ -126,7 +127,7 @@ public class PackageResource {
 
         Gson gson = new Gson();
         //create new package with information from JSONString
-        Package newPackage = gson.fromJson(JSONString, Package.class);
+        TravelPackage newPackage = gson.fromJson(JSONString, TravelPackage.class);
 
         em.getTransaction().begin();
         em.persist(newPackage); //add new package
@@ -134,13 +135,13 @@ public class PackageResource {
         {
             em.getTransaction().commit();//commit changes
             em.close();//close connection
-            response = "{'message', 'Package was inserted successfully'}";
+            response = "{'message': 'Package was inserted successfully'}";
         }
         else
         {
             em.getTransaction().rollback(); //undo changes
             em.close();//close connection
-            response = "{'message', 'Failed to insert Package'}";
+            response = "{'message': 'Failed to insert Package'}";
         }
         return response;
     }
@@ -160,7 +161,7 @@ public class PackageResource {
         EntityManager em = emf.createEntityManager();
 
         //get selected package
-        Package selectedPackage = em.find(Package.class, packageId);
+        TravelPackage selectedPackage = em.find(TravelPackage.class, packageId);
         if(selectedPackage != null) //packages exists
         {
             em.getTransaction().begin();
@@ -170,18 +171,18 @@ public class PackageResource {
             {
                 em.getTransaction().commit();//commit changes
                 em.close();//close connection
-                response = "{'message', 'Package was deleted successfully'}";
+                response = "{'message': 'Package was deleted successfully'}";
             }
             else
             {
                 em.getTransaction().rollback();//undo changes
                 em.close();//close connection
-                response = "{'message', 'Failed to delete package'}";
+                response = "{'message': 'Failed to delete package'}";
             }
         }
         else //package doesn't exist
         {
-            response = "{'message', 'package doesn't exist.'}";
+            response = "{'message': 'package doesn't exist.'}";
         }
         return response;
     }

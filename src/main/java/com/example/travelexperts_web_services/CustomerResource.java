@@ -10,7 +10,6 @@ import javax.persistence.Persistence;
 import javax.persistence.Query;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import java.lang.reflect.Type;
 import java.util.List;
 
@@ -36,7 +35,7 @@ public class CustomerResource {
         String response = ""; //returns JSON string
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("default");
         EntityManager em = emf.createEntityManager();
-        Query query = em.createQuery("SELECT a FROM Customer a order by a.custLastName"); //select all Customers
+        Query query = em.createQuery("SELECT a FROM Customer a ORDER BY a.custLastName"); //select all Customers
         List<Customer> customersList = query.getResultList(); //all customer
         Type type = new TypeToken<List<Customer>>() {
         }.getType();
@@ -96,12 +95,12 @@ public class CustomerResource {
         {
             em.getTransaction().commit(); //commit update
             em.close();//close connection
-            response = "{\"message\":\"Customer was updated successfully\"}";
+            response = "{'message': 'Customer was updated successfully'}";
         } else//update fails
         {
             em.getTransaction().rollback();//undo changes
             em.close();//close connection
-            response = "{\"message\":\"Failed to update Customer\"}";
+            response = "{'message': 'Failed to update Customer'}";
         }
         return response;
     }
@@ -124,17 +123,18 @@ public class CustomerResource {
         Gson gson = new Gson();
         //create new Customer with information from JSONString
         Customer newCustomer = gson.fromJson(JSONString, Customer.class);
+
         em.getTransaction().begin();
         em.persist(newCustomer); //add new Customer
         if (em.contains(newCustomer)) //added successfully
         {
             em.getTransaction().commit();//commit changes
             em.close();//close connection
-            response = "{\"message\":\"Customer was inserted successfully\"}";
+            response = "{'message': 'Customer was inserted successfully'}";
         } else {
             em.getTransaction().rollback(); //undo changes
             em.close();//close connection
-            response = "{\"message\":\"Failed to insert Customer\"}";
+            response = "{'message': 'Failed to insert Customer'}";
         }
         return response;
     }
@@ -157,28 +157,22 @@ public class CustomerResource {
         Customer selectedCustomer = em.find(Customer.class, CustomerId);
         if (selectedCustomer != null) //Customer exists
         {
-            //try-catch. To handle failed customer delete due to fk constraint
-            try{
-                em.getTransaction().begin();
-                em.remove(selectedCustomer);//delete Customer
+            em.getTransaction().begin();
+            em.remove(selectedCustomer);//delete Customer
 
-                if (!em.contains(selectedCustomer))//deleted successfully
-                {
-                    em.getTransaction().commit();//commit changes
-                    em.close();//close connection
-                    response = "{\"message\": \"Customer was deleted successfully\"}";
-                } else {
-                    em.getTransaction().rollback();//undo changes
-                    em.close();//close connection
-                    response = "{\"message\": \"Failed to delete Customer\"}";
-                }
-            }catch (Exception e){
-                response = "{\"message\": \"Failed to delete Customer. Check with Administrator\"}";
+            if (!em.contains(selectedCustomer))//deleted successfully
+            {
+                em.getTransaction().commit();//commit changes
+                em.close();//close connection
+                response = "{'message': 'Customer was deleted successfully'}";
+            } else {
+                em.getTransaction().rollback();//undo changes
+                em.close();//close connection
+                response = "{'message': 'Failed to delete Customer'}";
             }
-
         } else //Customer doesn't exist
         {
-            response = "{\"message\": \"Customer doesn't exist.\"}";
+            response = "{'message': 'Customer doesn't exist.'}";
         }
         return response;
     }
