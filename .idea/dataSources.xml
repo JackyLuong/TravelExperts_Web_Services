@@ -8,5 +8,12 @@
       <jdbc-url>jdbc:mariadb://localhost:3306/travelexpertsworkshop6</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="travelexpertsworkshop6@localhost [2]" uuid="409d7b29-a5b4-4a94-92d9-f2ad642656cd">
+      <driver-ref>mariadb</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.mariadb.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mariadb://localhost:3306/travelexpertsworkshop6</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>
