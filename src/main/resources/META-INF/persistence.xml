@@ -12,6 +12,8 @@
             <property name="javax.persistence.jdbc.url" value="jdbc:mariadb://localhost:3306/travelexpertsworkshop6"/>
             <property name="javax.persistence.jdbc.user" value="jacky"/>
             <property name="javax.persistence.jdbc.password" value="password"/>
+            <property name="eclipselink.target-database" value="MySQL"/>
+
         </properties>
     </persistence-unit>
 </persistence>

@@ -10,6 +10,7 @@ import javax.persistence.Persistence;
 import javax.persistence.Query;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.lang.reflect.Type;
 import java.util.List;
 
@@ -95,12 +96,12 @@ public class CustomerResource {
         {
             em.getTransaction().commit(); //commit update
             em.close();//close connection
-            response = "{'message':'Customer was updated successfully'}";
+            response = "{\"message\":\"Customer was updated successfully\"}";
         } else//update fails
         {
             em.getTransaction().rollback();//undo changes
             em.close();//close connection
-            response = "{'message':'Failed to update Customer'}";
+            response = "{\"message\":\"Failed to update Customer\"}";
         }
         return response;
     }
@@ -123,18 +124,17 @@ public class CustomerResource {
         Gson gson = new Gson();
         //create new Customer with information from JSONString
         Customer newCustomer = gson.fromJson(JSONString, Customer.class);
-
         em.getTransaction().begin();
         em.persist(newCustomer); //add new Customer
         if (em.contains(newCustomer)) //added successfully
         {
             em.getTransaction().commit();//commit changes
             em.close();//close connection
-            response = "{'message':'Customer was inserted successfully'}";
+            response = "{\"message\":\"Customer was inserted successfully\"}";
         } else {
             em.getTransaction().rollback(); //undo changes
             em.close();//close connection
-            response = "{'message':'Failed to insert Customer'}";
+            response = "{\"message\":\"Failed to insert Customer\"}";
         }
         return response;
     }
@@ -166,20 +166,19 @@ public class CustomerResource {
                 {
                     em.getTransaction().commit();//commit changes
                     em.close();//close connection
-                    response = "{'message': 'Customer was deleted successfully'}";
+                    response = "{\"message\": \"Customer was deleted successfully\"}";
                 } else {
                     em.getTransaction().rollback();//undo changes
                     em.close();//close connection
-                    response = "{'message': 'Failed to delete Customer'}";
+                    response = "{\"message\": \"Failed to delete Customer\"}";
                 }
             }catch (Exception e){
-                response = "{'message': 'Failed to delete Customer. Check with Administrator'}";
+                response = "{\"message\": \"Failed to delete Customer. Check with Administrator\"}";
             }
-
 
         } else //Customer doesn't exist
         {
-            response = "{'message': 'Customer doesn't exist.'}";
+            response = "{\"message\": \"Customer doesn't exist.\"}";
         }
         return response;
     }
