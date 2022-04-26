@@ -43,8 +43,6 @@ public class AgentResource {
         response = gson.toJson(agent, type); //convert customer to JSON String
         em.close();//close connection
         return response;
-
-
     }
 
 }
